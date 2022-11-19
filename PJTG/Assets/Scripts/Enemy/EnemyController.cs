@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class EnemyController : MonoBehaviour
-{
+public class EnemyController : MonoBehaviour {
     string[] PossibleQTE = {"Q","D","X","F","U","L","P","B"};
     public GameObject TextPrefab;
     public float MoveSpeed = 3f;
@@ -16,8 +15,7 @@ public class EnemyController : MonoBehaviour
     int indexQTE = 0;
 
     // Start is called before the first frame update
-    void Start()
-    {   
+    void Start() {   
         Sequence = new List<GameObject>();
         for(int i = 0; i<Random.Range(1,6); i++){
             GameObject s = Instantiate(TextPrefab, new Vector3 (0,0,0), Quaternion.identity);
@@ -31,8 +29,7 @@ public class EnemyController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         //QTE
         bool hasPressed = false;
         if(!QTEDone){
@@ -53,7 +50,7 @@ public class EnemyController : MonoBehaviour
                 if (Input.anyKeyDown)
                 {
                     if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.Mouse2)) {
-                    }else{
+                    } else {
                         foreach(GameObject s in Sequence){
                             s.GetComponent<TextMeshPro>().color = new Color(255,255,255);
                             indexQTE = 0;
@@ -70,7 +67,7 @@ public class EnemyController : MonoBehaviour
 
         if (Vector2.Distance (PlayerPosition, transform.position) > 1.0f) {
             transform.position += (displacement * MoveSpeed * Time.deltaTime);
-        }else{
+        } else {
             //do whatever the enemy has to do with the player
             // Destroy(gameObject, 1f);
         }
