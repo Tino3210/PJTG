@@ -94,6 +94,7 @@ public class GameController : MonoBehaviour {
             Vector3 randomPoint = spawnPoints[index].transform.position + randomInsideUnitCircle * radius * 0.5f;
             GameObject enemy = Instantiate(enemyPrefab, randomPoint, Quaternion.identity);
             enemy.GetComponent<EnemyController>().Direction = index;
+            enemy.GetComponent<EnemyController>().Type = type;
             yield return new WaitForSeconds(1f);
         }
     }
