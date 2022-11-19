@@ -42,9 +42,9 @@ public class CharacterController : MonoBehaviour
         var enemieEC = enemie.GetComponent<EnemyController>();        
         _currentEnemy = enemie;
         _isOnHit = true;
-        Debug.Log("QTE: " + enemieEC.QTEDone);
-        if(enemieEC.QTEDone){                                              
-            HitAnimation(enemieEC.Direction);            
+        if(enemieEC.QTEDone){                                                          
+            HitAnimation(enemieEC.Direction);
+            GameObject.Find("GameController").GetComponent<GameController>().AddScore(20);
         }else{            
             Hit();
             HitAnimation(enemieEC.Direction);
