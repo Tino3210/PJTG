@@ -130,13 +130,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ae7ad52b3604b34fa30dd6b20d0796d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 3
-  QTEDone: 0
   TextPrefab: {fileID: 6504876152062649961, guid: 9e439781e132f0d49a11f63db2b39d1b, type: 3}
+  MoveSpeed: 1.5
+  QTEDone: 0
   Direction: 0
   Sequence:
   - {fileID: 0}
   Texts: {fileID: 471888416}
+  Type: 0
 --- !u!58 &-8585706004007951147
 CircleCollider2D:
   m_ObjectHideFlags: 0

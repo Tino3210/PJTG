@@ -324,6 +324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hp: 3
+  _menuController: {fileID: 0}
 --- !u!58 &8962234757896694973
 CircleCollider2D:
   m_ObjectHideFlags: 0

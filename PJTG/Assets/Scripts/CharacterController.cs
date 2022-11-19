@@ -42,11 +42,12 @@ public class CharacterController : MonoBehaviour
         var enemieEC = enemie.GetComponent<EnemyController>();        
         _currentEnemy = enemie;
         _isOnHit = true;
-        if(!enemieEC.QTEDone){                                  
+        Debug.Log("QTE: " + enemieEC.QTEDone);
+        if(enemieEC.QTEDone){                                              
             HitAnimation(enemieEC.Direction);            
-        }else{
+        }else{            
             Hit();
-            HitAnimation(0);
+            HitAnimation(enemieEC.Direction);
         }        
     }
 
@@ -61,6 +62,7 @@ public class CharacterController : MonoBehaviour
     public void Hit()
     {
         _hp -= 1;
+        Debug.Log("Death: " + _hp);
         if(_hp <= 0) Death();
     }
 
@@ -89,6 +91,7 @@ public class CharacterController : MonoBehaviour
     public void Death()
     {
         _animator.SetBool("isDeath", true);
+        GameObject.Find("GameCanvas").GetComponent<MenuController>().GameOver();
     }
 
     public void OnHitEnd()
