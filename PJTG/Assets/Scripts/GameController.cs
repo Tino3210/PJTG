@@ -53,7 +53,7 @@ public class GameController : MonoBehaviour {
             Vector3 randomInsideUnitCircle = new Vector3(Random.insideUnitCircle.x, Random.insideUnitCircle.y, 0);
             Vector3 randomPoint = spawnPoints[index].transform.position + randomInsideUnitCircle * radius * 0.5f;
             Instantiate(enemyPrefab, randomPoint, Quaternion.identity);
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(1f);
         }
     }
 }

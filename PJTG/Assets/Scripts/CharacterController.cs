@@ -42,8 +42,8 @@ public class CharacterController : MonoBehaviour
         var enemieEC = enemie.GetComponent<EnemyController>();        
         _currentEnemy = enemie;
         _isOnHit = true;
-        if(enemieEC.QTEDone){                                  
-            HitAnimation(CharacterAnimation.Left);            
+        if(!enemieEC.QTEDone){                                  
+            HitAnimation(CharacterAnimation.Up);            
         }else{
             Hit();
             HitAnimation(CharacterAnimation.Left);
