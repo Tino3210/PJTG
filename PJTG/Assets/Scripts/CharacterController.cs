@@ -14,19 +14,38 @@ public class CharacterController : MonoBehaviour
 {
     [SerializeField]
     private int _hp = 3;
-    [SerializeField]
     private Animator _animator;
+
+    private Queue<GameObject> _enemiesQueue;
 
     // Start is called before the first frame update
     void Start()
     {
-        // nothing
+        _animator = GetComponent<Animator>();
+        _enemiesQueue = new Queue<GameObject>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        HandleEnemies();
+    }
 
+    private void HandleEnemies()
+    {
+        if(_enemiesQueue.Count <= 0) return;
+
+        var enemie = _enemiesQueue.Dequeue();
+        //TODO : Check if qte as finished or not
+        HitAnimation(CharacterAnimation.Up);
+        Destroy(enemie);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Enemies")) return;
+
+        _enemiesQueue.Enqueue(other.gameObject);
     }
     
     public void Hit()
