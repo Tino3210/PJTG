@@ -5,13 +5,15 @@ using TMPro;
 
 public class GameController : MonoBehaviour {
 
+    public bool IsEnd = false;
+
     // Timer management
-    private float chrono = 0f;
+    public static float chrono = 0f;
     private bool chronoIsUp = false;
     public TextMeshProUGUI timerText;
 
     // Score management
-    private int score = 0;
+    public static int score = 0;
     public TextMeshProUGUI scoreText;
 
     // Enemies management
@@ -31,6 +33,7 @@ public class GameController : MonoBehaviour {
     
     // Start is called before the first frame update
     private void Start() {
+        if(IsEnd) return;
         // Timer
         this.chronoIsUp = true;
 
@@ -56,9 +59,10 @@ public class GameController : MonoBehaviour {
 
     // Update is called once per frame
     private void Update() {
+		if(IsEnd) return;
         if(currentWave.IsBossWave && boss == null && currentWave.HasBossSpawned){
             currentWave.IsBossWave = false;
-        }
+        }        
         if(chronoIsUp) {
             int timeIndex = System.Convert.ToInt32(chrono);
             // Start the wave according to its timestamp
@@ -82,8 +86,8 @@ public class GameController : MonoBehaviour {
 
     // Add the score on the user's score
     public void AddScore(int score) {
-        this.score += score;
-        scoreText.text = "Score : " + this.score;
+        GameController.score += score;
+        scoreText.text = "Score : " + GameController.score;
     }
 
     IEnumerator SpawnEnemy() {

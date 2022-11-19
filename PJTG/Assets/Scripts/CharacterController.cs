@@ -50,10 +50,13 @@ public class CharacterController : MonoBehaviour
         var enemieEC = enemie.GetComponent<EnemyController>();        
         _currentEnemy = enemie;
         _isOnHit = true;
-        if(enemieEC.QTEDone){                                  
+
+        if(enemieEC.QTEDone){                                                          
             HitAnimation(enemieEC.Direction);
-        }else{
+            GameObject.Find("GameController").GetComponent<GameController>().AddScore(20);
+        }else{            
             Hit();
+            HitAnimation(enemieEC.Direction);
         }        
     }
 
@@ -100,6 +103,7 @@ public class CharacterController : MonoBehaviour
         GameObject.Find("GameController").GetComponent<GameController>().isDead = true;
         GameObject.Find("GameController").GetComponent<GameController>().spawnEnemy = false;
         StartCoroutine(PlayerDeath());
+        GameObject.Find("GameCanvas").GetComponent<MenuController>().GameOver();
     }
 
     public void OnHitEnd()
