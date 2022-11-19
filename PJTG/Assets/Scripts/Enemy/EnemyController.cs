@@ -6,6 +6,7 @@ public class EnemyController : MonoBehaviour
 {
     public float MoveSpeed = 3f;
     Vector3 PlayerPosition = new Vector3(0f,0f,0f);
+    public bool QTEDone = false;
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +22,7 @@ public class EnemyController : MonoBehaviour
         displacement = displacement.normalized;
 
         if (Vector2.Distance (PlayerPosition, transform.position) > 1.0f) {
-            transform.position += (displacement * MoveSpeed * Time.deltaTime);      
+            transform.position += (displacement * MoveSpeed * Time.deltaTime);
         }else{
             //do whatever the enemy has to do with the player
             Destroy(gameObject, 1f);
