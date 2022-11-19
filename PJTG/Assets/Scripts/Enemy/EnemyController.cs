@@ -13,6 +13,7 @@ public class EnemyController : MonoBehaviour {
     public List<GameObject> Sequence;
     public GameObject Texts;
     int indexQTE = 0;
+    public EnemyType Type;
 
     // Start is called before the first frame update
     void Start() {   
