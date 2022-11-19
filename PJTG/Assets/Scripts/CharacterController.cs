@@ -17,6 +17,8 @@ public class CharacterController : MonoBehaviour
     private Animator _animator;
 
     private Queue<GameObject> _enemiesQueue;
+    private bool _isOnHit = false;
+    private GameObject _currentEnemy;
 
     // Start is called before the first frame update
     void Start()
@@ -34,18 +36,26 @@ public class CharacterController : MonoBehaviour
     private void HandleEnemies()
     {
         if(_enemiesQueue.Count <= 0) return;
-
+        if(_isOnHit) return;
         var enemie = _enemiesQueue.Dequeue();
-        //TODO : Check if qte as finished or not
-        HitAnimation(CharacterAnimation.Up);
-        Destroy(enemie);
+        if(!enemie) return;
+        var enemieEC = enemie.GetComponent<EnemyController>();        
+        _currentEnemy = enemie;
+        _isOnHit = true;
+        if(enemieEC.QTEDone){                                  
+            HitAnimation(CharacterAnimation.Left);            
+        }else{
+            Hit();
+            HitAnimation(CharacterAnimation.Left);
+        }        
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.CompareTag("Enemies")) return;
-
-        _enemiesQueue.Enqueue(other.gameObject);
+    private void OnTriggerEnter2D(Collider2D collider)
+    {        
+        if (collider.gameObject.tag == "Enemy")
+        {
+            _enemiesQueue.Enqueue(collider.gameObject);
+        }     
     }
     
     public void Hit()
@@ -79,5 +89,13 @@ public class CharacterController : MonoBehaviour
     public void Death()
     {
         _animator.SetBool("isDeath", true);
+    }
+
+    public void OnHitEnd()
+    {
+        if(!_isOnHit || !_currentEnemy) return;        
+        Destroy(_currentEnemy);
+        _currentEnemy = null;
+        _isOnHit = false;        
     }
 }

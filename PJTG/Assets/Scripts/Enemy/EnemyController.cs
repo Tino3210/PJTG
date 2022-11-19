@@ -25,7 +25,7 @@ public class EnemyController : MonoBehaviour
             transform.position += (displacement * MoveSpeed * Time.deltaTime);
         }else{
             //do whatever the enemy has to do with the player
-            Destroy(gameObject, 1f);
+            //Destroy(gameObject, 1f);
         }
     }
 }
