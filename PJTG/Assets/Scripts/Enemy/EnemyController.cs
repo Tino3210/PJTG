@@ -65,16 +65,18 @@ public class EnemyController : MonoBehaviour {
             }
         }
 
-        //Enemy displacement
-        Vector3 displacement = PlayerPosition - transform.position;
+        if(!GameObject.Find("GameController").GetComponent<GameController>().isDead) {
+            //Enemy displacement
+            Vector3 displacement = PlayerPosition - transform.position;
 
-        displacement = displacement.normalized;
+            displacement = displacement.normalized;
 
-        if (Vector2.Distance (PlayerPosition, transform.position) > 1.0f) {
-            transform.position += (displacement * MoveSpeed * Time.deltaTime);
-        } else {
-            //do whatever the enemy has to do with the player
-            //Destroy(gameObject, 1f);
+            if (Vector2.Distance (PlayerPosition, transform.position) > 1.0f) {
+                transform.position += (displacement * MoveSpeed * Time.deltaTime);
+            } else {
+                //do whatever the enemy has to do with the player
+                //Destroy(gameObject, 1f);
+            }
         }
     }
 

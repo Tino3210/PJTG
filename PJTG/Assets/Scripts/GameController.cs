@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour {
     public TextMeshProUGUI scoreText;
 
     // Enemies management
-    private bool spawnEnemy = true;
+    public bool spawnEnemy = true;
     public GameObject enemyPrefab;
     public GameObject[] spawnPoints;
     private float radius = 5f;
@@ -27,6 +27,7 @@ public class GameController : MonoBehaviour {
     private int Difficulty = 3;
 
     GameObject boss;
+    public bool isDead = false;
     
     // Start is called before the first frame update
     private void Start() {
