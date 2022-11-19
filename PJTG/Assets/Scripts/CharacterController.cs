@@ -20,11 +20,19 @@ public class CharacterController : MonoBehaviour
     private bool _isOnHit = false;
     private GameObject _currentEnemy;
 
+    public ParticleSystem deathParticles;
+    public Shake shakeCamera;
+
+    public ParticleSystem playerDeathParticles;
+    public GameObject deadHead;
+
+    public SpriteRenderer[] bodyPieces;
+
     // Start is called before the first frame update
     void Start()
     {
         _animator = GetComponent<Animator>();
-        _enemiesQueue = new Queue<GameObject>();
+        _enemiesQueue = new Queue<GameObject>();        
     }
 
     // Update is called once per frame
@@ -42,11 +50,10 @@ public class CharacterController : MonoBehaviour
         var enemieEC = enemie.GetComponent<EnemyController>();        
         _currentEnemy = enemie;
         _isOnHit = true;
-        if(!enemieEC.QTEDone){                                  
-            HitAnimation(enemieEC.Direction);            
+        if(enemieEC.QTEDone){                                  
+            HitAnimation(enemieEC.Direction);
         }else{
             Hit();
-            HitAnimation(0);
         }        
     }
 
@@ -61,6 +68,7 @@ public class CharacterController : MonoBehaviour
     public void Hit()
     {
         _hp -= 1;
+        StartCoroutine(Blink());
         if(_hp <= 0) Death();
     }
 
@@ -89,13 +97,46 @@ public class CharacterController : MonoBehaviour
     public void Death()
     {
         _animator.SetBool("isDeath", true);
+        GameObject.Find("GameController").GetComponent<GameController>().isDead = true;
+        GameObject.Find("GameController").GetComponent<GameController>().spawnEnemy = false;
+        StartCoroutine(PlayerDeath());
     }
 
     public void OnHitEnd()
     {
-        if(!_isOnHit || !_currentEnemy) return;        
+        if(!_isOnHit || !_currentEnemy) return;
+        this.deathParticles.transform.position = _currentEnemy.transform.position;
+        this.deathParticles.Play();
+        StartCoroutine(this.shakeCamera.ShakeCamera(0.2f, 0.2f));
         Destroy(_currentEnemy);
         _currentEnemy = null;
         _isOnHit = false;        
+    }
+
+    private void EnableBodyParts(bool choice) {
+        for(int i = 0 ; i < this.bodyPieces.Length; i++) {
+            this.bodyPieces[i].enabled = choice;
+        }
+    }
+
+    private IEnumerator Blink() { 
+        this.EnableBodyParts(false);
+
+        yield return new WaitForSeconds(0.08f);
+
+        this.EnableBodyParts(true);
+
+        OnHitEnd();
+    }
+
+    private IEnumerator PlayerDeath() {
+        this.playerDeathParticles.Play();
+        GetComponent<CircleCollider2D>().enabled = false;
+        this.bodyPieces[0].gameObject.SetActive(false);
+        this.bodyPieces[1].gameObject.SetActive(false);
+        this.bodyPieces[2].gameObject.SetActive(false);
+        this.deadHead.SetActive(true);
+
+        yield return null;
     }
 }

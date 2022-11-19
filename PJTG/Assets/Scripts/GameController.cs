@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour {
     public TextMeshProUGUI scoreText;
 
     // Enemies management
-    private bool spawnEnemy = true;
+    public bool spawnEnemy = true;
     public GameObject enemyPrefab;
     public GameObject[] spawnPoints;
     private float radius = 5f;
@@ -23,6 +23,8 @@ public class GameController : MonoBehaviour {
     // Wave management
     private Wave currentWave;
     private Dictionary<int, Wave> waves;
+
+    public bool isDead = false;
     
     // Start is called before the first frame update
     private void Start() {
