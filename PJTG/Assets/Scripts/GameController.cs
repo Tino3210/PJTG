@@ -23,6 +23,10 @@ public class GameController : MonoBehaviour {
     // Wave management
     private Wave currentWave;
     private Dictionary<int, Wave> waves;
+
+    private int Difficulty = 3;
+
+    GameObject boss;
     
     // Start is called before the first frame update
     private void Start() {
@@ -32,12 +36,16 @@ public class GameController : MonoBehaviour {
         // Waves initialization
         this.waves = new Dictionary<int, Wave>();
         // First wave
-        Wave wave0 = new Wave(0, new[] {EnemyType.BURGER, EnemyType.FRIES}, false);
-        Wave wave1 = new Wave(30, new[] {EnemyType.FRIES, EnemyType.SANDWICH}, false);
-        Wave wave2 = new Wave(60, new[] {EnemyType.SANDWICH}, true);
+        Wave wave0 = new Wave(0, new[] {EnemyType.HAMBURGER1, EnemyType.KEBAB1, EnemyType.HAMBURGER3}, false);
+        Wave wave1 = new Wave(10, new[] {EnemyType.HAMBURGER2, EnemyType.KEBAB2}, false);
+        Wave wave2 = new Wave(20, new[] {EnemyType.HUILE, EnemyType.PIZZA}, false);
+        Wave wave3 = new Wave(30, new[] {EnemyType.HUILE}, true);
+        Wave wave4 = new Wave(60, new[] {EnemyType.HAMBURGER1, EnemyType.HAMBURGER2, EnemyType.HAMBURGER3, EnemyType.KEBAB1, EnemyType.KEBAB2, EnemyType.HUILE, EnemyType.PIZZA}, false);
         this.waves[wave0.TimeStamp] = wave0;
         this.waves[wave1.TimeStamp] = wave1;
         this.waves[wave2.TimeStamp] = wave2;
+        this.waves[wave3.TimeStamp] = wave3;
+        this.waves[wave4.TimeStamp] = wave4;
 
         this.currentWave = this.waves[0];
 
@@ -47,12 +55,16 @@ public class GameController : MonoBehaviour {
 
     // Update is called once per frame
     private void Update() {
+        if(currentWave.IsBossWave && boss == null && currentWave.HasBossSpawned){
+            currentWave.IsBossWave = false;
+        }
         if(chronoIsUp) {
             int timeIndex = System.Convert.ToInt32(chrono);
             // Start the wave according to its timestamp
             if(this.waves.ContainsKey(timeIndex)) {
                 if(this.currentWave != waves[timeIndex]) {
                     this.currentWave = waves[timeIndex];
+                    Difficulty++;
                 }
             }
             chrono += Time.deltaTime;
@@ -81,21 +93,32 @@ public class GameController : MonoBehaviour {
             EnemyType type = this.currentWave.Enemies[this.currentWave.GetEnemyType(random)];
 
             // Is the new enemy a boss
-            if(this.currentWave.IsBossWave && !this.currentWave.HasBossSpawned) {
-                int randomBoss = Random.Range(0, 11);
-                if(randomBoss == 0) {
-                    this.currentWave.HasBossSpawned = true;
-                }
-            }
+            // if(this.currentWave.IsBossWave && !this.currentWave.HasBossSpawned) {
+            //     int randomBoss = Random.Range(0, 11);
+            //     if(randomBoss == 0) {
+            //         this.currentWave.HasBossSpawned = true;
+            //     }
+            // }
 
             // Spawn the enemy
             int index = Random.Range(0, 4);
             Vector3 randomInsideUnitCircle = new Vector3(Random.insideUnitCircle.x, Random.insideUnitCircle.y, 0);
             Vector3 randomPoint = spawnPoints[index].transform.position + randomInsideUnitCircle * radius * 0.5f;
             GameObject enemy = Instantiate(enemyPrefab, randomPoint, Quaternion.identity);
+            enemy.GetComponent<EnemyController>().ChangeEnemyType(type);
             enemy.GetComponent<EnemyController>().Direction = index;
-            enemy.GetComponent<EnemyController>().Type = type;
-            yield return new WaitForSeconds(1f);
+            if(currentWave.IsBossWave && !currentWave.HasBossSpawned){
+                boss = enemy;
+                currentWave.HasBossSpawned = true;
+                enemy.GetComponent<EnemyController>().Difficulty = 20;
+                enemy.GetComponent<EnemyController>().MoveSpeed = 0.5f;
+            }else if(currentWave.IsBossWave && currentWave.HasBossSpawned){
+                Destroy(enemy);
+            }else{
+                enemy.GetComponent<EnemyController>().Difficulty = Difficulty;
+                enemy.GetComponent<EnemyController>().MoveSpeed = Difficulty/2;
+            }
+            yield return new WaitForSeconds(2f);
         }
     }
 }
