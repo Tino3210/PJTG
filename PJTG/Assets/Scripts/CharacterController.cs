@@ -56,7 +56,6 @@ public class CharacterController : MonoBehaviour
             GameObject.Find("GameController").GetComponent<GameController>().AddScore(20);
         }else{            
             Hit();
-            HitAnimation(enemieEC.Direction);
         }        
     }
 
