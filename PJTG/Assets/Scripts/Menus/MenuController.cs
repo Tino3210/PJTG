@@ -9,10 +9,12 @@ public class MenuController : MonoBehaviour {
     public float _transitionTime = 1f;
 
     public void MainMenu() {
+        AudioController.instance.Play("ButtonClick");
         SceneManager.LoadScene(0);
     }
     
     public void PlayGame() {
+        AudioController.instance.Play("ButtonClick");
         SceneManager.LoadScene(1);
     }
 
@@ -21,6 +23,7 @@ public class MenuController : MonoBehaviour {
     }
 
     public void QuitGame() {
+        AudioController.instance.Play("ButtonClick");
         Application.Quit();
     }
 
