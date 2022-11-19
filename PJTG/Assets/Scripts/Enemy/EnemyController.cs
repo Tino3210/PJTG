@@ -9,21 +9,19 @@ public class EnemyController : MonoBehaviour
     public bool QTEDone = false;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         Vector3 displacement = PlayerPosition - transform.position;
 
         displacement = displacement.normalized;
 
         if (Vector2.Distance (PlayerPosition, transform.position) > 1.0f) {
             transform.position += (displacement * MoveSpeed * Time.deltaTime);
-        }else{
+        } else {
             //do whatever the enemy has to do with the player
             Destroy(gameObject, 1f);
         }
