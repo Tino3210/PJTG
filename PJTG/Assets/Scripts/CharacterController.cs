@@ -43,10 +43,10 @@ public class CharacterController : MonoBehaviour
         _currentEnemy = enemie;
         _isOnHit = true;
         if(!enemieEC.QTEDone){                                  
-            HitAnimation(CharacterAnimation.Up);            
+            HitAnimation(enemieEC.Direction);            
         }else{
             Hit();
-            HitAnimation(CharacterAnimation.Left);
+            HitAnimation(0);
         }        
     }
 
@@ -64,20 +64,20 @@ public class CharacterController : MonoBehaviour
         if(_hp <= 0) Death();
     }
 
-    public void HitAnimation(CharacterAnimation ca)
+    public void HitAnimation(int direction)
     {
-        switch (ca)
+        switch (direction)
         {
-            case CharacterAnimation.Up:
+            case 2:
                 _animator.SetTrigger("onHitUp");
             break;
-            case CharacterAnimation.Down:
+            case 3:
                 _animator.SetTrigger("onHitDown");
             break;
-            case CharacterAnimation.Left:
+            case 0:
                 _animator.SetTrigger("onHitLeft");
             break;
-            case CharacterAnimation.Right:
+            case 1:
                 _animator.SetTrigger("onHitRight");
             break;
             default:
