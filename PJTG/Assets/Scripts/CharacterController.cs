@@ -54,9 +54,7 @@ public class CharacterController : MonoBehaviour
 
     private void HandleEnemies()
     {   
-        Debug.Log("HandleEnemies queue : " + _enemiesQueue.Count);
         if(_enemiesQueue.Count <= 0) return;
-        Debug.Log("HandleEnemies onHit : " + _isOnHit);
         if(_isOnHit) return;
         var enemie = _enemiesQueue.Dequeue();
         if(!enemie) return;
@@ -136,9 +134,7 @@ public class CharacterController : MonoBehaviour
 
     public void OnHitEnd()
     {
-        Debug.Log("OnHitEnd : " + _isOnHit);
         if(!_isOnHit || _currentEnemy == null) return;
-        Debug.Log("OnHitEnd");
         this.deathParticles.transform.position = _currentEnemy.transform.position;
         this.deathParticles.Play();
         StartCoroutine(this.shakeCamera.ShakeCamera(0.2f, 0.2f));

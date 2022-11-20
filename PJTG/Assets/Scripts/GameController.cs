@@ -37,15 +37,21 @@ public class GameController : MonoBehaviour {
         // Timer
         this.chronoIsUp = true;
         GameController.chrono = 0;
+        GameController.score = 0;
 
         // Waves initialization
         this.waves = new Dictionary<int, Wave>();
         // First wave
-        Wave wave0 = new Wave(0, new[] {EnemyType.HAMBURGER1, EnemyType.KEBAB1, EnemyType.HAMBURGER3}, false);
-        Wave wave1 = new Wave(10, new[] {EnemyType.HAMBURGER2, EnemyType.KEBAB2}, false);
-        Wave wave2 = new Wave(20, new[] {EnemyType.HUILE, EnemyType.PIZZA}, false);
-        Wave wave3 = new Wave(30, new[] {EnemyType.HUILE}, true);
-        Wave wave4 = new Wave(60, new[] {EnemyType.HAMBURGER1, EnemyType.HAMBURGER2, EnemyType.HAMBURGER3, EnemyType.KEBAB1, EnemyType.KEBAB2, EnemyType.HUILE, EnemyType.PIZZA}, false);
+        Wave wave0 = new Wave(0, new[] {EnemyType.HAMBURGER1, EnemyType.KEBAB1, EnemyType.HAMBURGER3, EnemyType.PIZZA2, EnemyType.FROMAGE1}, false);
+        Wave wave1 = new Wave(10, new[] {EnemyType.HAMBURGER2, EnemyType.KEBAB2, EnemyType.FROMAGE2}, false);
+        Wave wave2 = new Wave(20, new[] {EnemyType.HUILE, EnemyType.PIZZA1, EnemyType.FROMAGE3, EnemyType.PIZZA3}, false);
+        Wave wave3;
+        if(Random.Range(0,2) == 1){
+            wave3 = new Wave(30, new[] {EnemyType.BEURRE15}, true);
+        }else{
+            wave3 = new Wave(30, new[] {EnemyType.HUILE}, true);
+        }
+        Wave wave4 = new Wave(60, new[] {EnemyType.HAMBURGER1, EnemyType.HAMBURGER2, EnemyType.HAMBURGER3, EnemyType.FROMAGE1, EnemyType.FROMAGE2, EnemyType.FROMAGE3, EnemyType.KEBAB1, EnemyType.KEBAB2, EnemyType.PIZZA1, EnemyType.PIZZA2, EnemyType.PIZZA3}, false);
         this.waves[wave0.TimeStamp] = wave0;
         this.waves[wave1.TimeStamp] = wave1;
         this.waves[wave2.TimeStamp] = wave2;
@@ -116,13 +122,17 @@ public class GameController : MonoBehaviour {
             if(currentWave.IsBossWave && !currentWave.HasBossSpawned){
                 boss = enemy;
                 currentWave.HasBossSpawned = true;
-                enemy.GetComponent<EnemyController>().Difficulty = 20;
+                enemy.GetComponent<EnemyController>().Difficulty = 15;
                 enemy.GetComponent<EnemyController>().MoveSpeed = 0.5f;
             }else if(currentWave.IsBossWave && currentWave.HasBossSpawned){
                 Destroy(enemy);
             }else{
                 enemy.GetComponent<EnemyController>().Difficulty = Difficulty;
-                enemy.GetComponent<EnemyController>().MoveSpeed = Difficulty/2;
+                if(Difficulty/2 <= 2f){
+                    enemy.GetComponent<EnemyController>().MoveSpeed = Difficulty/2;
+                }else{
+                    enemy.GetComponent<EnemyController>().MoveSpeed = 2f;
+                }
             }
             switch(Difficulty){
                 case 3:

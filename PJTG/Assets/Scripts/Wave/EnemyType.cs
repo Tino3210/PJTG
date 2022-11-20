@@ -7,8 +7,14 @@ public enum EnemyType : int {
     HAMBURGER1 = 10,
     HAMBURGER2 = 10,
     HAMBURGER3 = 10,
-    HUILE = 20,
+    FROMAGE1 = 20,
+    FROMAGE2 = 20,
+    FROMAGE3 = 20,
+    HUILE = 60,
     KEBAB1 = 30,
     KEBAB2 = 30,
-    PIZZA = 40
+    PIZZA1 = 40,
+    PIZZA2 = 40,
+    PIZZA3 = 40,
+    BEURRE15 = 50
 }

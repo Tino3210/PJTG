@@ -21,13 +21,6 @@ public class EnemyController : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         Sequence = new List<GameObject>();
-        for(int i = 0; i < UnityEngine.Random.Range(Difficulty-2,Difficulty); i++){
-            GameObject s = Instantiate(TextPrefab, new Vector3 (0,0,0), Quaternion.identity);
-            s.GetComponent<TextMeshPro>().text = PossibleQTE[UnityEngine.Random.Range(0,8)];
-            Sequence.Add(s);
-            s.transform.SetParent(Texts.transform, false);
-            s.transform.position = new Vector3(0,0,0);
-            s.transform.localPosition = new Vector3(-0.22f+i*0.83f,-0.9f,0);
         if(Difficulty < 7 || Difficulty > 7){
             for(int i = 0; i < UnityEngine.Random.Range(Difficulty-2,Difficulty); i++){
                 GameObject s = Instantiate(TextPrefab, new Vector3 (0,0,0), Quaternion.identity);
@@ -35,23 +28,23 @@ public class EnemyController : MonoBehaviour {
                 Sequence.Add(s);
                 s.transform.SetParent(Texts.transform, false);
                 s.transform.position = new Vector3(0,0,0);
-                s.transform.localPosition = new Vector3(-0.22f+i*0.5f,-0.9f,0);
+                s.transform.localPosition = new Vector3(-0.22f+i*0.6f,-0.9f,0);
             }
             Texts.transform.position = new Vector3(0,0,0);
             Texts.transform.localPosition = new Vector3((Sequence.Count-1)*-1f,-4f,0);
         }else{
+            MoveSpeed=2.5f;
             for(int i = 0; i < UnityEngine.Random.Range(1,Difficulty); i++){
                 GameObject s = Instantiate(TextPrefab, new Vector3 (0,0,0), Quaternion.identity);
                 s.GetComponent<TextMeshPro>().text = PossibleQTE[UnityEngine.Random.Range(0,PossibleQTE.Length)];
                 Sequence.Add(s);
                 s.transform.SetParent(Texts.transform, false);
                 s.transform.position = new Vector3(0,0,0);
-                s.transform.localPosition = new Vector3(-0.22f+i*0.5f,-0.9f,0);
+                s.transform.localPosition = new Vector3(-0.22f+i*0.6f,-0.9f,0);
             }
             Texts.transform.position = new Vector3(0,0,0);
             Texts.transform.localPosition = new Vector3((Sequence.Count-1)*-1f,-4f,0);
         }
-        
     }
 
     // Update is called once per frame
@@ -80,7 +73,7 @@ public class EnemyController : MonoBehaviour {
                     if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.Mouse2)) {
                     } else {
                         foreach(GameObject s in Sequence){
-                            s.GetComponent<TextMeshPro>().color = new Color(0,0,0);
+                            s.GetComponent<TextMeshPro>().color = new Color(255,240,0);
                             indexQTE = 0;
                         }
                     }
@@ -104,6 +97,7 @@ public class EnemyController : MonoBehaviour {
     }
 
     public void ChangeEnemyType(EnemyType type){
+        Debug.Log(type);
         Type = type;
         string FilePath = "Sprites/Foods/"+Enum.GetName(typeof(EnemyType),type).ToUpper().Substring(0,1) + Enum.GetName(typeof(EnemyType),type).Substring(1).ToLower();
         Debug.Log(FilePath);
