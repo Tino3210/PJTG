@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour {
     public bool spawnEnemy = true;
     public GameObject enemyPrefab;
     public GameObject[] spawnPoints;
-    private float radius = 5f;
+    private float radius = 1f;
 
     // Wave management
     private Wave currentWave;
@@ -124,7 +124,26 @@ public class GameController : MonoBehaviour {
                 enemy.GetComponent<EnemyController>().Difficulty = Difficulty;
                 enemy.GetComponent<EnemyController>().MoveSpeed = Difficulty/2;
             }
-            yield return new WaitForSeconds(2f);
+            switch(Difficulty){
+                case 3:
+                    yield return new WaitForSeconds(1f);
+                    break;
+                case 4:
+                    yield return new WaitForSeconds(2f);
+                    break;
+                case 5:
+                    yield return new WaitForSeconds(2f);
+                    break;
+                case 6:
+                    yield return new WaitForSeconds(2f);
+                    break;
+                case 7:
+                    yield return new WaitForSeconds(2f);
+                    break;
+                default:
+                    yield return new WaitForSeconds(2f);
+                    break;
+            }
         }
     }
 }
