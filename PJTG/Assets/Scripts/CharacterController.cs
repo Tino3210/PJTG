@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Animations;
 
 public enum CharacterAnimation
 {
@@ -16,8 +15,6 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private int _hp = 3;
     private Animator _animator;
-    public AnimatorController _animator2;
-    public AnimatorController _animator3;
 
     private Queue<GameObject> _enemiesQueue;
     private bool _isOnHit = false;
