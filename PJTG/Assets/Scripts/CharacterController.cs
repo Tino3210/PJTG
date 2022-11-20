@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.Animations;
 
 public enum CharacterAnimation
 {
@@ -15,6 +16,8 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private int _hp = 3;
     private Animator _animator;
+    public AnimatorController _animator2;
+    public AnimatorController _animator3;
 
     private Queue<GameObject> _enemiesQueue;
     private bool _isOnHit = false;
@@ -28,10 +31,20 @@ public class CharacterController : MonoBehaviour
 
     public SpriteRenderer[] bodyPieces;
 
+    public GameObject[] arms0;
+    public GameObject[] arms1;
+    public GameObject[] arms2;
+
+    public GameObject Player1;
+    public GameObject Player2;
+    public GameObject Player3;
+
+    private GameObject currentPlayer;
+
     // Start is called before the first frame update
     void Start()
     {
-        _animator = GetComponent<Animator>();
+        currentPlayer = Player1;
         _enemiesQueue = new Queue<GameObject>();        
     }
 
@@ -42,8 +55,10 @@ public class CharacterController : MonoBehaviour
     }
 
     private void HandleEnemies()
-    {
+    {   
+        Debug.Log("HandleEnemies queue : " + _enemiesQueue.Count);
         if(_enemiesQueue.Count <= 0) return;
+        Debug.Log("HandleEnemies onHit : " + _isOnHit);
         if(_isOnHit) return;
         var enemie = _enemiesQueue.Dequeue();
         if(!enemie) return;
@@ -68,10 +83,25 @@ public class CharacterController : MonoBehaviour
     }
     
     public void Hit()
-    {
+    {        
         _hp -= 1;
-        StartCoroutine(Blink());
+        Debug.Log("Health : " + _hp);        
+        StartCoroutine(Blink());                
         if(_hp <= 0) Death();
+        OnHitEnd();
+    }
+
+    private void ChangeState()
+    {
+        if(_hp == 2){
+            currentPlayer.SetActive(false);
+            currentPlayer = Player2;
+            currentPlayer.SetActive(true);
+        }else if(_hp == 1){
+            currentPlayer.SetActive(false);
+            currentPlayer = Player3;
+            currentPlayer.SetActive(true);
+        }
     }
 
     public void HitAnimation(int direction)
@@ -79,16 +109,16 @@ public class CharacterController : MonoBehaviour
         switch (direction)
         {
             case 2:
-                _animator.SetTrigger("onHitUp");
+                currentPlayer.GetComponent<Animator>().SetTrigger("onHitUp");
             break;
             case 3:
-                _animator.SetTrigger("onHitDown");
+                currentPlayer.GetComponent<Animator>().SetTrigger("onHitDown");
             break;
             case 0:
-                _animator.SetTrigger("onHitLeft");
+                currentPlayer.GetComponent<Animator>().SetTrigger("onHitLeft");
             break;
             case 1:
-                _animator.SetTrigger("onHitRight");
+                currentPlayer.GetComponent<Animator>().SetTrigger("onHitRight");
             break;
             default:
 
@@ -98,7 +128,7 @@ public class CharacterController : MonoBehaviour
 
     public void Death()
     {
-        _animator.SetBool("isDeath", true);
+        currentPlayer.GetComponent<Animator>().SetBool("isDeath", true);
         GameObject.Find("GameController").GetComponent<GameController>().isDead = true;
         GameObject.Find("GameController").GetComponent<GameController>().spawnEnemy = false;
         StartCoroutine(PlayerDeath());
@@ -107,13 +137,16 @@ public class CharacterController : MonoBehaviour
 
     public void OnHitEnd()
     {
-        if(!_isOnHit || !_currentEnemy) return;
+        Debug.Log("OnHitEnd : " + _isOnHit);
+        if(!_isOnHit || _currentEnemy == null) return;
+        Debug.Log("OnHitEnd");
         this.deathParticles.transform.position = _currentEnemy.transform.position;
         this.deathParticles.Play();
         StartCoroutine(this.shakeCamera.ShakeCamera(0.2f, 0.2f));
         Destroy(_currentEnemy);
         _currentEnemy = null;
-        _isOnHit = false;        
+        _isOnHit = false;
+        ChangeState();        
     }
 
     private void EnableBodyParts(bool choice) {
@@ -127,9 +160,7 @@ public class CharacterController : MonoBehaviour
 
         yield return new WaitForSeconds(0.08f);
 
-        this.EnableBodyParts(true);
-
-        OnHitEnd();
+        this.EnableBodyParts(true);        
     }
 
     private IEnumerator PlayerDeath() {

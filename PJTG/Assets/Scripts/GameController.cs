@@ -36,6 +36,7 @@ public class GameController : MonoBehaviour {
         if(IsEnd) return;
         // Timer
         this.chronoIsUp = true;
+        GameController.chrono = 0;
 
         // Waves initialization
         this.waves = new Dictionary<int, Wave>();
