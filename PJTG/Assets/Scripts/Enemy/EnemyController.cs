@@ -47,6 +47,7 @@ public class EnemyController : MonoBehaviour {
                         indexQTE++;
                         if(indexQTE == Sequence.Count){
                             QTEDone = true;
+                            AudioController.instance.Play("QTEValid");
                         }
                     }
                 }

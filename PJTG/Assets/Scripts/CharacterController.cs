@@ -85,8 +85,8 @@ public class CharacterController : MonoBehaviour
     public void Hit()
     {        
         _hp -= 1;
-        Debug.Log("Health : " + _hp);        
-        StartCoroutine(Blink());                
+        StartCoroutine(Blink());
+        AudioController.instance.Play("PlayerHit");
         if(_hp <= 0) Death();
         OnHitEnd();
     }
@@ -121,9 +121,10 @@ public class CharacterController : MonoBehaviour
                 currentPlayer.GetComponent<Animator>().SetTrigger("onHitRight");
             break;
             default:
-
+                
             break;
         }
+        AudioController.instance.Play("PlayerPunch");
     }
 
     public void Death()
@@ -143,6 +144,7 @@ public class CharacterController : MonoBehaviour
         this.deathParticles.transform.position = _currentEnemy.transform.position;
         this.deathParticles.Play();
         StartCoroutine(this.shakeCamera.ShakeCamera(0.2f, 0.2f));
+        AudioController.instance.Play("MonsterDeath");
         Destroy(_currentEnemy);
         _currentEnemy = null;
         _isOnHit = false;
@@ -165,6 +167,7 @@ public class CharacterController : MonoBehaviour
 
     private IEnumerator PlayerDeath() {
         this.playerDeathParticles.Play();
+        AudioController.instance.Play("PlayerDeath");
         GetComponent<CircleCollider2D>().enabled = false;
         this.bodyPieces[0].gameObject.SetActive(false);
         this.bodyPieces[1].gameObject.SetActive(false);
