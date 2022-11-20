@@ -29,6 +29,8 @@ public class MenuController : MonoBehaviour {
 
     IEnumerator LoadLevel(int levelIndex)
     {
+        yield return new WaitForSeconds(2);
+
         _transition.SetTrigger("start");
 
         yield return new WaitForSeconds(_transitionTime);
