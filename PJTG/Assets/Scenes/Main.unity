@@ -198,6 +198,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3545622255974609075, guid: 0539de3949a2f9242a36a1ee9369a27c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.34
+      objectReference: {fileID: 0}
     - target: {fileID: 3545622256024255522, guid: 0539de3949a2f9242a36a1ee9369a27c, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -245,6 +249,18 @@ PrefabInstance:
     - target: {fileID: 3545622256024255523, guid: 0539de3949a2f9242a36a1ee9369a27c, type: 3}
       propertyPath: m_Name
       value: SpawnPoints
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545622256815434370, guid: 0539de3949a2f9242a36a1ee9369a27c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -10.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545622257098625043, guid: 0539de3949a2f9242a36a1ee9369a27c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -6.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 3545622257214313852, guid: 0539de3949a2f9242a36a1ee9369a27c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.47
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0539de3949a2f9242a36a1ee9369a27c, type: 3}

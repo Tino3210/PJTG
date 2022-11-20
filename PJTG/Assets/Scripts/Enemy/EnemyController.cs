@@ -6,7 +6,7 @@ using System.IO;
 using System;
 
 public class EnemyController : MonoBehaviour {
-    string[] PossibleQTE = {"Q","D","X","F","U","L","P","B"};
+    string[] PossibleQTE = {"S","D","J","K"};
     public GameObject TextPrefab;
     public float MoveSpeed = 2f;
     Vector3 PlayerPosition = new Vector3(0f,0f,0f);
@@ -21,16 +21,30 @@ public class EnemyController : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         Sequence = new List<GameObject>();
-        for(int i = 0; i < UnityEngine.Random.Range(Difficulty-2,Difficulty); i++){
-            GameObject s = Instantiate(TextPrefab, new Vector3 (0,0,0), Quaternion.identity);
-            s.GetComponent<TextMeshPro>().text = PossibleQTE[UnityEngine.Random.Range(0,8)];
-            Sequence.Add(s);
-            s.transform.SetParent(Texts.transform, false);
-            s.transform.position = new Vector3(0,0,0);
-            s.transform.localPosition = new Vector3(-0.22f+i*0.5f,-0.9f,0);
+        if(Difficulty < 7 || Difficulty > 7){
+            for(int i = 0; i < UnityEngine.Random.Range(Difficulty-2,Difficulty); i++){
+                GameObject s = Instantiate(TextPrefab, new Vector3 (0,0,0), Quaternion.identity);
+                s.GetComponent<TextMeshPro>().text = PossibleQTE[UnityEngine.Random.Range(0,PossibleQTE.Length)];
+                Sequence.Add(s);
+                s.transform.SetParent(Texts.transform, false);
+                s.transform.position = new Vector3(0,0,0);
+                s.transform.localPosition = new Vector3(-0.22f+i*0.5f,-0.9f,0);
+            }
+            Texts.transform.position = new Vector3(0,0,0);
+            Texts.transform.localPosition = new Vector3((Sequence.Count-1)*-1f,-4f,0);
+        }else{
+            for(int i = 0; i < UnityEngine.Random.Range(1,Difficulty); i++){
+                GameObject s = Instantiate(TextPrefab, new Vector3 (0,0,0), Quaternion.identity);
+                s.GetComponent<TextMeshPro>().text = PossibleQTE[UnityEngine.Random.Range(0,PossibleQTE.Length)];
+                Sequence.Add(s);
+                s.transform.SetParent(Texts.transform, false);
+                s.transform.position = new Vector3(0,0,0);
+                s.transform.localPosition = new Vector3(-0.22f+i*0.5f,-0.9f,0);
+            }
+            Texts.transform.position = new Vector3(0,0,0);
+            Texts.transform.localPosition = new Vector3((Sequence.Count-1)*-1f,-4f,0);
         }
-        Texts.transform.position = new Vector3(0,0,0);
-        Texts.transform.localPosition = new Vector3((Sequence.Count-1)*-1f,-4f,0);
+        
     }
 
     // Update is called once per frame
@@ -41,12 +55,13 @@ public class EnemyController : MonoBehaviour {
             foreach(string pqte in PossibleQTE){
                 if (Input.GetKeyDown(pqte.ToLower()))
                 {
-                    hasPressed = true;
                     if(pqte.Equals(Sequence[indexQTE].GetComponent<TextMeshPro>().text)){
+                        hasPressed = true;
                         Sequence[indexQTE].GetComponent<TextMeshPro>().color = new Color(0,255,0);
                         indexQTE++;
                         if(indexQTE == Sequence.Count){
                             QTEDone = true;
+                            Texts.SetActive(false);
                             AudioController.instance.Play("QTEValid");
                         }
                     }
