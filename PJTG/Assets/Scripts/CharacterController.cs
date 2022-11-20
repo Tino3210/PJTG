@@ -29,11 +29,9 @@ public class CharacterController : MonoBehaviour
     public ParticleSystem playerDeathParticles;
     public GameObject deadHead;
 
-    public SpriteRenderer[] bodyPieces;
-
-    public GameObject[] arms0;
-    public GameObject[] arms1;
-    public GameObject[] arms2;
+    public SpriteRenderer[] bodyPieces1;
+    public SpriteRenderer[] bodyPieces2;
+    public SpriteRenderer[] bodyPieces3;
 
     public GameObject Player1;
     public GameObject Player2;
@@ -151,10 +149,20 @@ public class CharacterController : MonoBehaviour
         ChangeState();        
     }
 
-    private void EnableBodyParts(bool choice) {
-        for(int i = 0 ; i < this.bodyPieces.Length; i++) {
-            this.bodyPieces[i].enabled = choice;
-        }
+    private void EnableBodyParts(bool choice) {                
+        if(_hp == 3){
+            for(int i = 0 ; i < this.bodyPieces1.Length; i++) {            
+                this.bodyPieces1[i].enabled = choice;
+            }
+            }else if(_hp == 2){
+                for(int i = 0 ; i < this.bodyPieces2.Length; i++) {            
+                    this.bodyPieces2[i].enabled = choice;
+                }
+            }else{
+                for(int i = 0 ; i < this.bodyPieces3.Length; i++) {            
+                     this.bodyPieces3[i].enabled = choice;
+                }
+            }
     }
 
     private IEnumerator Blink() { 
@@ -166,12 +174,13 @@ public class CharacterController : MonoBehaviour
     }
 
     private IEnumerator PlayerDeath() {
+        currentPlayer.SetActive(false);
         this.playerDeathParticles.Play();
         AudioController.instance.Play("PlayerDeath");
-        GetComponent<CircleCollider2D>().enabled = false;
-        this.bodyPieces[0].gameObject.SetActive(false);
-        this.bodyPieces[1].gameObject.SetActive(false);
-        this.bodyPieces[2].gameObject.SetActive(false);
+        GetComponent<CircleCollider2D>().enabled = false;    
+        this.bodyPieces3[0].gameObject.SetActive(false);
+        this.bodyPieces3[1].gameObject.SetActive(false);
+        this.bodyPieces3[2].gameObject.SetActive(false);
         this.deadHead.SetActive(true);
 
         yield return null;
