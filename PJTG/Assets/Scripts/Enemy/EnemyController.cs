@@ -27,7 +27,7 @@ public class EnemyController : MonoBehaviour {
             Sequence.Add(s);
             s.transform.SetParent(Texts.transform, false);
             s.transform.position = new Vector3(0,0,0);
-            s.transform.localPosition = new Vector3(-0.22f+i*0.5f,-0.9f,0);
+            s.transform.localPosition = new Vector3(-0.22f+i*0.83f,-0.9f,0);
         }
         Texts.transform.position = new Vector3(0,0,0);
         Texts.transform.localPosition = new Vector3((Sequence.Count-1)*-1f,-4f,0);

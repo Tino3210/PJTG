@@ -338,6 +338,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4800459368692742018, guid: 2c205f8f743c1e4429acda9bd3a11d91, type: 3}
+      propertyPath: m_text
+      value: Aurelie, Bruno, Diogo et Valentino
+      objectReference: {fileID: 0}
     - target: {fileID: 7576709168629261483, guid: 2c205f8f743c1e4429acda9bd3a11d91, type: 3}
       propertyPath: m_Name
       value: MainMenuCanvas
